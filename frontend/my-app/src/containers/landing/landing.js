@@ -1,28 +1,34 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import './../../components/landing/landing.css';
+import { Container, Row, Col } from 'react-bootstrap';
+import logo from './../../components/landing/logo.png';
 
-export class Landing extends React.Component {
+class Landing extends React.Component {
   contructor(props){
-    this.state = {};
+    this.state = {dummy: ''};
   }
 
   render(){
     return(
       <>
-        <div class = "button-wrapper">
-        <table>
-        <tr>
-        <h1>Welcome!</h1>
+      <table>
+      <tr>
+      <h1>Welcome!</h1>
+      </tr>
+      <tr>
+      <img src = {logo}/>
+      </tr>
+      <tr>
+        <Link to = "/register">
+          <button>Sign Up</button>
+        </Link>
         </tr>
-        <tr>
-          <Link to = "/register">
-            <button>Sign Up</button>
-          </Link>
-          </tr>
-          </table>
-        </div>
+
+        </table>
       </>
     );
   }
 }
+
+export default Landing;
