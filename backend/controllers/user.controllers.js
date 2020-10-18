@@ -9,14 +9,9 @@ const User = db.user;
 // Users DB CRUD endpoints - create, findAll, findOne, update, delete, deleteAll
 
 // Create and Save a new User
-exports.create = (req, res) => {
-  // Validate request
-  if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
-    return;
-  }
-  // missing name, username, pw, description
-  else if (!req.body.name || !req.body.username || !req.body.password || !req.body.description) {
+createUser = async (req, res) => {
+  // Validate request - check missing name, username, pw, role
+  if (!req.body.name || !req.body.username || !req.body.password || !req.body.role) {
     res.status(400).send({ message: "Content is missing key information for user!" });
     return;
   }
@@ -24,18 +19,19 @@ exports.create = (req, res) => {
   // Create a User
   const user = new User({
     name: req.body.name,
+    email: req.body.email,
     username: req.body.username,
     password: req.body.password,
-    description: req.body.description,
+    role: req.body.role,
     pfp: req.body.pfp || "",
     comments: req.body.comments || [],
   });
 
   // Save User in the database
-  user
+  await user
     .save(user)
     .then(data => {
-      res.send(data);
+      res.send(data.toJSON());
     })
     .catch(err => {
       res.status(500).send({
@@ -46,12 +42,12 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Users from the database under condition described in body of request
-exports.findAll = async (req, res) => {
+findAllUsers = async (req, res) => {
     const condition = req.body || {}
   
     User.find(condition)
       .then(data => {
-        res.send(data);
+        res.send(data.toJSON());
       })
       .catch(err => {
         res.status(500).send({
@@ -62,14 +58,14 @@ exports.findAll = async (req, res) => {
 };
 
 // Find a single User with an id
-exports.findOne = (req, res) => {
+findUser = (req, res) => {
     const id = req.params.id;
 
     User.findById(id)
       .then(data => {
         if (!data)
           res.status(404).send({ message: "Not found User with id " + id });
-        else res.send(data);
+        else res.send(data.toJSON());
       })
       .catch(err => {
         res
@@ -79,7 +75,7 @@ exports.findOne = (req, res) => {
 };
 
 // Update a User by the id in the request
-exports.update = (req, res) => {
+updateUser = (req, res) => {
     if (!req.body) {
         return res.status(400).send({
           message: "Data to update can not be empty!"
@@ -104,10 +100,10 @@ exports.update = (req, res) => {
 };
 
 // Delete a User with the specified id in the request
-exports.delete = (req, res) => {
+deleteUser = async (req, res) => {
     const id = req.params.id;
 
-    User.findByIdAndRemove(id)
+    await User.findByIdAndRemove(id)
       .then(data => {
         if (!data) {
           res.status(404).send({
@@ -127,8 +123,8 @@ exports.delete = (req, res) => {
 };
 
 // Delete all Users from the database.
-exports.deleteAll = (req, res) => {
-    User.deleteMany({})
+deleteAllUsers = async (req, res) => {
+    await User.deleteMany({})
     .then(data => {
       res.send({
         message: `${data.deletedCount} Users were deleted successfully!`
@@ -142,35 +138,86 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-// Find all published Users
-exports.findAllUnderCondition = (req, res) => {
-    User.find(req.body.condition)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving users."
-      });
-    });
-};
 
-exports.checkLogin = async (req, res) => {
+checkLogin = (req, res) => {
   const credentials = req.body;
 
   // check credentials in DB
   const user = User.findOne(credentials)
     .then(res => res)
     .catch(err => {
-      console.error(err);
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving users."
+      });
     });
   
-  // if username + password combo exist
+  // check if username + password combo exist
   if (user) {
-    return true;
+    return res.status(200).json({login: true});
   }
   else {
-    return false;
+    return res.status(200).json({login: false});
   }
+}
+
+register = async (req, res) => {
+  const info = req.body;
+  // find if there is a user already registered with this username or email - if not, register user + return values
+
+  const existingUser = User.findOne({$or: [
+    {username: req.body.username},
+    {email: req.body.email}
+  ]}).then(data => {
+    // if nothing found, register user
+    if (!data) {
+      // Validate request - check missing name, username, pw, role
+      if (!req.body.name || !req.body.username || !req.body.password || !req.body.role) {
+        res.status(400).send({ message: "Content is missing key information for user!" });
+        return;
+      }
+
+      // Create a User
+      const user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        username: req.body.username,
+        password: req.body.password,
+        role: req.body.role,
+        pfp: req.body.pfp || "",
+        comments: req.body.comments || [],
+      });
+
+      // Save User in the database
+      await user
+        .save(user)
+        .then(data => {
+          res.send(data.toJSON());
+        })
+        .catch(err => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while registering the User."
+          });
+        });
+    }
+    // if user found, return 400 error (bad request to indicate that either username or email is already taken)
+    else {
+      res.status(400).send({ message: `User with username ${req.body.username} or email ${req.body.email} already exists.`})
+    }
+  }).catch(err => {
+    res.status(500).send({ message: `Error checking registration for ${req.body.username}`});
+  })
+
+}
+
+module.exports = {
+  createUser,
+  updateUser,
+  findUser,
+  findAllUsers,
+  deleteUser,
+  deleteAllUsers,
+  checkLogin,
+  register
 }

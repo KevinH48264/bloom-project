@@ -4,10 +4,11 @@ module.exports = mongoose => {
     const schema = mongoose.Schema(
       {
         name: String,
+        email: String,
         username: String,
         password: String,
-        description: String,
-        pfp: String, 
+        role: String,
+        pfp: Buffer, 
         comments: [{from: String, to: String, time: String, Content: String}],
       },
         { timestamps: true }

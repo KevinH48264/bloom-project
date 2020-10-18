@@ -56,6 +56,12 @@ class Register extends React.Component {
             </select>
             <br/>
             <br/>
+            <input type="text"
+            name = "name"
+            id = "name"
+            placeholder = "Name"/>
+            <br/>
+            <br/>
             <input type="email"
             name = "email"
             id = "email"
