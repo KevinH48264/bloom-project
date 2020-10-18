@@ -47,7 +47,7 @@ findAllUsers = async (req, res) => {
   
     User.find(condition)
       .then(data => {
-        res.send(data.toJSON());
+        res.send(data.map(data => data.toJSON()));
       })
       .catch(err => {
         res.status(500).send({
@@ -139,11 +139,11 @@ deleteAllUsers = async (req, res) => {
 };
 
 
-checkLogin = (req, res) => {
+checkLogin = async (req, res) => {
   const credentials = req.body;
-
+  console.log(req.body);
   // check credentials in DB
-  const user = User.findOne(credentials)
+  const user = await User.findOne(credentials)
     .then(res => res)
     .catch(err => {
       res.status(500).send({
@@ -151,17 +151,17 @@ checkLogin = (req, res) => {
           err.message || "Some error occurred while retrieving users."
       });
     });
-  
+  console.log(user);
   // check if username + password combo exist
-  if (user) {
-    return res.status(200).json({login: true});
+  if (!user) {
+    return res.status(200).json({login: false});
   }
   else {
-    return res.status(200).json({login: false});
+    return res.status(200).json({login: true});
   }
 }
 
-register = async (req, res) => {
+register = (req, res) => {
   const info = req.body;
   // find if there is a user already registered with this username or email - if not, register user + return values
 
@@ -189,7 +189,7 @@ register = async (req, res) => {
       });
 
       // Save User in the database
-      await user
+      user
         .save(user)
         .then(data => {
           res.send(data.toJSON());

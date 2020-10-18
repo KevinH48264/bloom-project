@@ -1,5 +1,5 @@
 module.exports = app => {
-    const users = require("../controllers/users.controller.js");
+    const users = require("../controllers/user.controllers");
   
     var router = require("express").Router();
 
@@ -9,7 +9,7 @@ module.exports = app => {
     router.post("/", users.createUser);
   
     // Retrieve all Tutorials - create conditions in post body
-    router.post("/", users.findAllUsers);
+    router.post("/findUsers", users.findAllUsers);
   
   
     // Retrieve a single Tutorial with id
