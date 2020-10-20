@@ -140,10 +140,21 @@ deleteAllUsers = async (req, res) => {
 
 
 checkLogin = async (req, res) => {
-  const credentials = req.body;
+  /*
+  const usernameCredentials = {
+    username: req.body.usernameOrEmail,
+    password: req.body.password
+  }
+  const credentials = {
+    email: req.body.usernameOrEmail,
+    password: req.body.password
+  }
+  */
   console.log(req.body);
   // check credentials in DB
-  const user = await User.findOne(credentials)
+  const user = await User.findOne({
+    $or: [{email: req.body.usernameOrEmail}, {username: req.body.usernameOrEmail}],
+    password: req.body.password})
     .then(res => res)
     .catch(err => {
       res.status(500).send({
@@ -152,6 +163,7 @@ checkLogin = async (req, res) => {
       });
     });
   console.log(user);
+  console.log()
   // check if username + password combo exist
   if (!user) {
     return res.status(200).json({login: false});
@@ -201,9 +213,9 @@ register = (req, res) => {
           });
         });
     }
-    // if user found, return 400 error (bad request to indicate that either username or email is already taken)
+    // if user found, return 303 error (see other to indicate that either username or email is already taken)
     else {
-      res.status(400).send({ message: `User with username ${req.body.username} or email ${req.body.email} already exists.`})
+      res.status(303).send({ message: `User with username ${req.body.username} or email ${req.body.email} already exists.`})
     }
   }).catch(err => {
     res.status(500).send({ message: `Error checking registration for ${req.body.username}`});
