@@ -31,6 +31,21 @@ async function database(req, res, next) {
       comments: [{from: String, to: String, time: String, Content: String}],
     });
 
+    app.post("/dbadd", database, async (req, res) => {
+      console.log(req.body);
+      const newUser = new req.db({
+        name: req.body.name,
+        username: req.body.username,
+        password: req.body.password,
+        description: req.body.description,
+        pfp: "",
+        comments: [],
+      });
+      await newUser.save();
+      res.json({ message: "success" });
+    });
+  
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
