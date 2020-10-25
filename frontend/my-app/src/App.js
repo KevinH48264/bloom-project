@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Landing from './containers/landing/landing';
-import Register from './containers/register/register';
+import Register from './containers/register/Register';
 import Login from './containers/login/login';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
