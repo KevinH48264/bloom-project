@@ -3,6 +3,7 @@ import './App.css';
 import Landing from './containers/landing/landing';
 import Register from './containers/register/Register';
 import Login from './containers/login/login';
+import Roster from './containers/roster/Roster';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,6 +20,9 @@ function App() {
           </Route>
           <Route exact path = "/login">
             <Login/>
+          </Route>
+          <Route exact path = "/roster">
+            <Roster/>
           </Route>
         </Switch>
       </BrowserRouter>

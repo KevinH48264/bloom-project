@@ -37,14 +37,14 @@ class Login extends React.Component {
       <form onSubmit = {this.handleSubmit.bind(this)}>
         <h1>Login</h1>
         <input type="text"
-        name = "usernameOrEmail"
-        onChange = {this.handleChange.bind(this)}
-        placeholder = "Username or Email"/>
+          name = "usernameOrEmail"
+          onChange = {this.handleChange.bind(this)}
+          placeholder = "Username or Email"/>
         <br/>
         <input type = "text"
-        name = "password"
-        onChange = {this.handleChange.bind(this)}
-        placeholder = "Password"/>
+          name = "password"
+          onChange = {this.handleChange.bind(this)}
+          placeholder = "Password"/>
         <br/>
         <input type="submit" value="Submit" />
         <br/>
