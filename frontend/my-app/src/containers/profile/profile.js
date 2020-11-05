@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import './../../components/profile/profile.css';
 import logo from './../../components/landing/logo.png';
+import { withRouter } from 'react-router';
+
 
 class Profile extends React.Component {
   contructor(props){
@@ -27,10 +29,11 @@ class Profile extends React.Component {
         <a onclick = "signOut();"><Link to = "/login">Sign Out</Link></a>
       </div>
       <table>
+    <p>{this.props.location.state.userdata}</p>
         </table>
       </>
     );
   }
 }
 
-export default Profile;
+export default withRouter(Profile);

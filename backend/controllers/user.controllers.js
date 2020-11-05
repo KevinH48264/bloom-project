@@ -169,7 +169,7 @@ checkLogin = async (req, res) => {
     return res.status(200).json({login: false});
   }
   else {
-    return res.status(200).json({login: true});
+    return res.status(200).json({login: true, user: user});
   }
 }
 
