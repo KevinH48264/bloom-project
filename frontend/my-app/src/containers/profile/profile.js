@@ -28,9 +28,7 @@ class Profile extends React.Component {
         <a>Roster</a>
         <a onclick = "signOut();"><Link to = "/login">Sign Out</Link></a>
       </div>
-      <table>
-    <p>{this.props.location.state.userdata}</p>
-        </table>
+        <p>{this.state.username}</p>
       </>
     );
   }
