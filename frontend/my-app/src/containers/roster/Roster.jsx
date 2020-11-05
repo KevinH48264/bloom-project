@@ -6,6 +6,7 @@ import './../../components/register/register.css';
 import makeRequest from "../../api/makeRequest";
 import * as Yup from "yup";
 import { useHistory } from "react-router";
+import profile from "../profile/profile.png";
 
 export default function Roster() {
 
@@ -37,6 +38,7 @@ export default function Roster() {
                 <tr>
                     <th>Name</th>
                     <th>Role</th>
+                    <th></th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Comments</th>
@@ -52,10 +54,14 @@ export default function Roster() {
                 }}>
                     <td>{user.name}</td>
                     <td>{user.role}</td>
+                    <td><img style={{flex: 1, width: null, height: null, resizeMode: 'contain'}} src={profile}></img></td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>
                     {user.comments.length !== 0 && (
                         <td>{user.comments[0]}</td>
+                    )}
+                    {user.comments.length == 0 && (
+                        <td>{"This is where user comments would go!"}</td>
                     )}
                 </tr>
                 )

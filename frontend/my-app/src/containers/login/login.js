@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import makeRequest from "../../api/makeRequest";
+import { withRouter } from 'react-router';
 class Login extends React.Component {
   contructor(props){
     this.state = {
@@ -15,10 +16,18 @@ class Login extends React.Component {
     console.log(event);
     const credentials = this.state;
     // call backend to check for user
-    makeRequest("POST", "/api/users/login", credentials)
+    makeRequest("POST", "api/users/login", credentials)
     .then(res => {
+      console.log(res.user)
       if (!!res.login && res.login == true) {
-        console.log("successfully logged in user");
+        console.log("successfully logged in user")
+        console.log(res.id);
+
+        this.props.history.push(`/profile/${res.id}`)
+        // this.props.history.push(
+        //   pathname: '/profile',
+        //   state: { userdata: res.user }
+        // })
       }
       else {
         console.log("user not found");
@@ -59,4 +68,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

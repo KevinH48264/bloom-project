@@ -24,6 +24,11 @@ class Landing extends React.Component {
           <button>Sign Up</button>
         </Link>
         </tr>
+      <tr>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+      </tr>
 
         </table>
       </>
