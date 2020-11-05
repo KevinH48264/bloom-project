@@ -7,6 +7,7 @@ import makeRequest from "../../api/makeRequest";
 import * as Yup from "yup";
 import { useHistory } from "react-router";
 import profile from "../profile/profile.png";
+import logo from './../../components/landing/logo.png';
 
 export default function Roster() {
 
@@ -29,8 +30,9 @@ export default function Roster() {
     
     return (
         <>
+        <div style={{display: "block"}}>
         <h1>All Bloom Users</h1>
-        <br/>
+        <img id = "nav-pic" src = {logo}/>
         <br/>
         <div id="users-table">
             <table>
@@ -68,6 +70,7 @@ export default function Roster() {
             })}
             </tbody>
             </table>
+        </div>
         </div>
         </>
     );
