@@ -21,13 +21,13 @@ class Login extends React.Component {
       console.log(res.user)
       if (!!res.login && res.login == true) {
         console.log("successfully logged in user")
-        console.log(res.user);
+        console.log(res.id);
 
-        this.props.history.push("/profile")
-        this.props.history.push({
-          pathname: '/profile',
-          state: { userdata: res.user }
-        })
+        this.props.history.push(`/profile/${res.id}`)
+        // this.props.history.push(
+        //   pathname: '/profile',
+        //   state: { userdata: res.user }
+        // })
       }
       else {
         console.log("user not found");
