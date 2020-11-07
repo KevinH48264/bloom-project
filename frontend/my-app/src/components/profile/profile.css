@@ -1,3 +1,7 @@
+* {
+  font-family: Georgia;
+}
+
 #navbar {
   overflow: hidden;
   background-color: #333;
@@ -14,6 +18,20 @@
 }
 
 #nav-pic {
-  width : "30px";
-  height : "25px";
+  width: "30px";
+  height: "25px";
+}
+
+table {
+  justify-content: center;
+  text-align: center;
+}
+
+tr {
+  height: 15px;
+}
+
+.username-display {
+  font-weight: bold;
+  font-size: 15px;
 }

@@ -274,6 +274,8 @@ const Register = props => {
       return(
         <>
           <div class = "registration">
+            <table>
+              <tr>
             <form onSubmit = {this.handleSubmit.bind(this)}>
               <h1>Register</h1>
               <label for="role">Role:</label>
@@ -325,10 +327,14 @@ const Register = props => {
               <button type="submit" value="Register"/>
               <br/>
               <br/>
-              <Link to = "/login">
+            </form>
+            </tr>
+            <tr>
+            <Link to = "/login">
                 <button>Redirect to Login Page</button>
               </Link>
-            </form>
+            </tr>
+            </table>
           </div>
         </>
       );

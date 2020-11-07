@@ -49,22 +49,28 @@ export default function Profile() {
     
   
     return ( 
-      <div>
-      <div id = "navbar">
-        <img id = "nav-pic" src = {logo}/>
-        <a class="active" href="#home"><Link to = "/">Home</Link></a>
-        <a>Roster</a>
-        <a onclick = "signOut();"><Link to = "/login">Sign Out</Link></a>
-      </div>
-      <div>
-        <p>{user.username}</p>
-        <img id = "nav-pic" src={user.image}/>
-        <p>{user.role}</p>
+      <>
         <table>
-          {user.comments.map((item => <tr>{item.Content}</tr>))}
-        </table>
-      </div>
-      </div>
+          <tr>
+        <div id = "navbar">
+          <img id = "nav-pic" src = {logo}/>
+          <a class="active" href="#home"><Link to = "/">Home</Link></a>
+          <a>Roster</a>
+          <a onclick = "signOut();"><Link to = "/login">Sign Out</Link></a>
+        </div>
+        </tr>
+        <tr>
+          <p class = "username-display">{user.username}</p>
+        </tr>
+        <tr>
+          <img id = "nav-pic" src={user.image}/>
+        </tr>
+        <tr>
+          <p>Role: {user.role}</p>
+        </tr>
+        {user.comments.map((item => <tr>{item.Content}</tr>))}
+      </table>
+      </>
       
     )
     };

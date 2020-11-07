@@ -17,11 +17,17 @@ class Landing extends React.Component {
       <h1>Welcome!</h1>
       </tr>
       <tr>
+      <hr/>
+      </tr>
+      <tr>
       <img src = {logo}/>
       </tr>
       <tr>
+      <hr/>
+      </tr>
+      <tr>
         <Link to = "/register">
-          <button>Sign Up</button>
+          <button className="btn btn1">Sign Up</button>
         </Link>
         </tr>
 
