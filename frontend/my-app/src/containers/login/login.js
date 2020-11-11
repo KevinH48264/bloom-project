@@ -16,7 +16,7 @@ class Login extends React.Component {
     console.log(event);
     const credentials = this.state;
     // call backend to check for user
-    makeRequest("POST", "/api/users/login", credentials)
+    makeRequest("POST", "api/users/login", credentials)
     .then(res => {
       console.log(res.user)
       if (!!res.login && res.login == true) {
@@ -46,14 +46,14 @@ class Login extends React.Component {
       <form onSubmit = {this.handleSubmit.bind(this)}>
         <h1>Login</h1>
         <input type="text"
-        name = "usernameOrEmail"
-        onChange = {this.handleChange.bind(this)}
-        placeholder = "Username or Email"/>
+          name = "usernameOrEmail"
+          onChange = {this.handleChange.bind(this)}
+          placeholder = "Username or Email"/>
         <br/>
         <input type = "text"
-        name = "password"
-        onChange = {this.handleChange.bind(this)}
-        placeholder = "Password"/>
+          name = "password"
+          onChange = {this.handleChange.bind(this)}
+          placeholder = "Password"/>
         <br/>
         <input className = "btn btn1" type="submit" value="Submit" />
         <br/>

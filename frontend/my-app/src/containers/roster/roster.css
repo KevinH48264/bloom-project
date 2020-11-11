@@ -1,0 +1,13 @@
+table, th, tr {
+    border: 1px solid black;
+  }
+
+.row {
+    transition: all 150ms ease;
+    border: 1px solid black;
+    
+}
+.row tr:hover {
+    border: 1px solid green !important;
+    cursor: pointer !important;
+}
