@@ -1,3 +1,7 @@
+* {
+  font-family: Georgia;
+}
+
 div {
   display: flex;
   align-items: center;
@@ -6,6 +10,11 @@ div {
 }
 
 form {
+  justify-content: center;
+  text-align: center;
+}
+
+table {
   justify-content: center;
   text-align: center;
 }

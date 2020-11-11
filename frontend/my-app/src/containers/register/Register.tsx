@@ -139,14 +139,14 @@ export default function RegisterForm() {
                             <ErrorMessage name="confirmPassword" component="div" />
                         </div>
                         <div>
-                            <button type="submit">Register</button>
+                            <button className = "btn btn1" type="submit">Register</button>
                         </div>
                     </Form>
                 )}
             </Formik>
             <div>
                 <Link to = "/login">
-                <button>Redirect to Login Page</button>
+                <button className = "btn btn1">Redirect to Login Page</button>
                 </Link>
             </div>
         </div>
