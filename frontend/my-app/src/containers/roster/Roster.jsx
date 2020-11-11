@@ -8,6 +8,8 @@ import * as Yup from "yup";
 import { useHistory } from "react-router";
 import profile from "../profile/profile.png";
 import logo from './../../components/landing/logo.png';
+import Navbar from "../../components/nav/Navbar";
+
 
 export default function Roster() {
 
@@ -31,6 +33,8 @@ export default function Roster() {
     return (
         <>
         <div style={{display: "block"}}>
+        <Navbar />
+
         <h1>All Bloom Users</h1>
         <img id = "nav-pic" src = {logo}/>
         <br/>

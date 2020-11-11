@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from 'react-router-dom';
 import './../../components/profile/profile.css';
 import logo from './../../components/landing/logo.png';
-
 import { withRouter } from 'react-router';
 import makeRequest from "../../api/makeRequest";
-
+import Navbar from "../../components/nav/Navbar";
+import { Nav } from "react-bootstrap";
 
 
 export default function Profile() {
@@ -52,13 +52,8 @@ export default function Profile() {
       <>
         <table>
           <tr>
-        <div id = "navbar">
-          <img id = "nav-pic" src = {logo}/>
-          <a class="active" href="#home"><Link to = "/">Home</Link></a>
-          <a>Roster</a>
-          <a onclick = "signOut();"><Link to = "/login">Sign Out</Link></a>
-        </div>
-        </tr>
+            <Navbar />
+          </tr>
         <tr>
           <p class = "username-display">{user.username}</p>
         </tr>
