@@ -34,7 +34,7 @@ export default function Roster() {
         <>
         <div style={{display: "block"}}>
         <Navbar />
-
+        
         <h1>All Bloom Users</h1>
         <img id = "nav-pic" src = {logo}/>
         <br/>
