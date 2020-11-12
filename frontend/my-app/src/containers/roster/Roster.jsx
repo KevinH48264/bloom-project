@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import "./roster.css";
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, useParams } from 'react-router-dom';
 import './../../components/register/register.css';
 import makeRequest from "../../api/makeRequest";
 import * as Yup from "yup";
@@ -9,11 +9,13 @@ import { useHistory } from "react-router";
 import profile from "../profile/profile.png";
 import logo from './../../components/landing/logo.png';
 import Navbar from "../../components/nav/Navbar";
+import { isWhiteSpaceLike } from "typescript";
 
 
 export default function Roster() {
 
     const history = useHistory();
+    let { userId } = useParams();
 
     // create state for all users
     const [allUsers, setAllUsers] = useState([]);
@@ -33,12 +35,12 @@ export default function Roster() {
     return (
         <>
         <div style={{display: "block"}}>
-        <Navbar />
+        <Navbar userId={userId}/>
         
         <h1>All Bloom Users</h1>
         <img id = "nav-pic" src = {logo}/>
         <br/>
-        <div id="users-table">
+        <div id="users-table" style={{backgroundColor: "white"}}>
             <table>
             <thead>
                 <tr>

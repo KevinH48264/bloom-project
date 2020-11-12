@@ -22,7 +22,7 @@ class Login extends React.Component {
       if (!!res.login && res.login == true) {
         console.log("successfully logged in user")
         console.log(res.id);
-
+        localStorage.setItem("userId", res.id);
         this.props.history.push(`/profile/${res.id}`)
         // this.props.history.push(
         //   pathname: '/profile',

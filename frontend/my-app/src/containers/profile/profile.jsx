@@ -52,7 +52,7 @@ export default function Profile() {
       <>
         <table>
           <tr>
-            <Navbar />
+            <Navbar userId={userid}/>
           </tr>
         <tr>
           <p class = "username-display">{user.username}</p>
