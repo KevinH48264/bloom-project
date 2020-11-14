@@ -32,5 +32,12 @@ module.exports = app => {
 
     router.post("/register", users.register);
 
+    // --- COMMENTS ENDPOINTS --- //
+    router.post("/addComment", users.addComment);
+
+    router.post("/updateComment", users.updateComment);
+
+    router.post("/deleteComment", users.deleteComment);
+    
     app.use('/api/users', router);
   };

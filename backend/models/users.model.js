@@ -9,7 +9,7 @@ module.exports = mongoose => {
         password: String,
         role: String,
         pfp: Buffer, 
-        comments: [{from: String, to: String, time: String, Content: String}],
+        comments: [{fromId: String, fromName: String, fromRole: String, to: String, time: Date, content: String}],
       },
         { timestamps: true }
     );
