@@ -21,7 +21,7 @@ class Landing extends React.Component {
       </tr>
       <tr>
         <Link to = "/register">
-          <button className="btn btn1">Sign Up</button>
+          <button>Sign Up</button>
         </Link>
         </tr>
       <tr>

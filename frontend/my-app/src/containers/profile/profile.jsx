@@ -21,7 +21,8 @@ export default function Profile() {
     });
     // effect for getting user information upon visiting this page
     useEffect(() => {
-        makeRequest("GET", `/api/users/${userid}`)
+      console.log(`/api/users/${userid}`)
+        makeRequest("GET", `api/users/${userid}`)
         .then(res => {
             if (!!res) {
                 console.log("user found!")
@@ -58,7 +59,7 @@ export default function Profile() {
           <p class = "username-display">{user.username}</p>
         </tr>
         <tr>
-          <img id = "nav-pic" src={user.image}/>
+          <img id = "nav-pic" width="200" height="200" src="/profile.jpg"/>
         </tr>
         <tr>
           <p>Role: {user.role}</p>

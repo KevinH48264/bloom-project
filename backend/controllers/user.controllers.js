@@ -60,7 +60,7 @@ findAllUsers = async (req, res) => {
 // Find a single User with an id
 findUser = (req, res) => {
     const id = req.params.id;
-
+    console.log(req.params.id)
     User.findById(id)
       .then(data => {
         if (!data)

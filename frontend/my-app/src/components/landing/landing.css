@@ -1,10 +1,11 @@
 * {
   padding: 10px;
   font-family: Georgia;
+  color: black;
 }
 
 body {
-  background-image: url("/backup.jpg");
+  /* background-image: url("/backup.jpg"); */
 }
 
 h1 {

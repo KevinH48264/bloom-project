@@ -56,11 +56,11 @@ class Login extends React.Component {
           onChange = {this.handleChange.bind(this)}
           placeholder = "Password"/>
         <br/>
-        <input className = "btn btn1" type="submit" value="Submit" />
+        <input type="submit" value="Submit" />
         <br/>
         <br/>
         <Link to = "/register">
-          <button className = "btn btn1">Register Page</button>
+          <button>Register Page</button>
         </Link>
       </form>
       </div>

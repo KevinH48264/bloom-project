@@ -20,8 +20,6 @@ export default function RegisterForm() {
     const history = useHistory();
 
     const submitRegister = (values: RegisterFormValues) => {
-        console.log("called submitRegister!");
-        console.log(values);
         if (values.confirmPassword === values.password) {
             const newCredentials = {
                 role: values.role,
@@ -30,13 +28,11 @@ export default function RegisterForm() {
                 email: values.email,
                 password: values.password
             }
-            console.log(newCredentials)
         // call backend to check for user
-        makeRequest("POST", "/api/users/register", newCredentials)
+        makeRequest("POST", "api/users/register", newCredentials)
         .then(res => {
             if (!!res) {
                 console.log("successfully registered user");
-                console.log(res);
                 history.push(`/login`);
             }
             else {
@@ -139,9 +135,9 @@ export default function RegisterForm() {
                             <ErrorMessage name="confirmPassword" component="div" />
                         </div>
                         <div>
-                            <button className = "btn btn1" type="submit" style = {{color: "white"}}>Register</button>
+                            <button  type="submit" style = {{color: "black"}}>Register</button>
                             <Link to = "/login">
-                                <button className = "btn btn1" style = {{color : "white"}}>Redirect to Login Page</button>
+                                <button  style = {{color : "black"}}>Redirect to Login Page</button>
                             </Link>
                         </div>
                     </Form>
