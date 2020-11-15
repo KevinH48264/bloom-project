@@ -223,6 +223,137 @@ register = (req, res) => {
 
 }
 
+/*
+REQUIRED REQUEST BODY
+{
+   "from": sending user ID (ex: "5f8cb949b84a62249834b4a2"),
+   "to": receiving user ID ( ex: "5fa05d5d672b493f103757f0"),
+   "time": String for timestamp (can use javascript Date) ex: "2020-11-13",
+   "content": content (ex: "Testing if the comment endpoint works for a second comment!")
+}
+*/
+addComment = async (req, res) => {
+    console.log(req.body);
+    const receivingUser = await User.findOne({
+      _id: req.body.to
+    }).then(data => {
+      if (!!data) {
+        return data;
+      }
+      else {
+        res.status(404).send({message: "No receiving user was found for your comment."});
+      }
+    }).catch(err => console.log(err));
+
+
+    const sendingUser = await User.findOne({
+      _id: req.body.from
+    }).then(data => {
+      if (!!data) {
+        return data;
+      }
+      else {
+        res.status(404).send({message: "No sending user was found for your comment."});
+      }
+    }).catch(err => console.log(err));
+
+    if (receivingUser && sendingUser) {
+      
+      // take previous comments, add new comment
+      
+      let newComment = {
+        fromId: req.body.from,
+        fromName: sendingUser.name,
+        fromRole: sendingUser.role,
+        to: req.body.to,
+        time: req.body.time,
+        content: req.body.content
+      }
+      // add comment to receiving user's array of comments in DB
+      User.updateOne(
+        { _id: req.body.to},
+        { $push: {comments: newComment}}
+      ).then(data => {
+        res.send(data)
+      }).catch(err => {
+        console.log(err);
+        res.status(500).send("Error updating user entry in DB with new comment");
+      });
+    }
+    else {
+      res.status(500).send({message: "Some error occurred while trying to add a comment."})
+    }
+}
+
+/*
+Required request body: 
+{
+  to: receiving user ID (ex: "5faf68d87c97cc67e8ac73a9")
+  commentId: unique comment ID (ex: "5faf68d87c97cc67e8ac73a9")
+  content: updated content (ex: "updated comment")
+  time: updated time (ex: "2020-11-13T00:00:00.00Z")
+}
+*/
+updateComment = async (req, res) => {
+    console.log(req.body);
+    const receivingUser = await User.findOne({
+      _id: req.body.to
+    }).then(data => {
+      if (!!data) {
+        return data;
+      }
+      else {
+        res.status(404).send({message: "No receiving user was found for your comment."});
+      }
+    }).catch(err => console.log(err));
+
+    if (receivingUser) {
+      // update comment in array based on content, new updated date
+      await User.updateOne( 
+        { _id : req.body.to, "comments._id": req.body.commentId },
+        { $set: { "comments.$.content": req.body.content, "comments.$.time": req.body.time }}
+      ).then(data => res.send(data))
+      .catch(err => console.log(err));
+    }
+    else {
+      res.status(500).send({message: "Some error occurred while trying to update a comment."})
+    }
+}
+
+/*
+Required request body: 
+{
+  to: receiving user ID (ex: "5faf68d87c97cc67e8ac73a9")
+  commentId: unique comment ID (ex: "5faf68d87c97cc67e8ac73a9")
+}
+*/
+deleteComment = async (req, res) => {
+  console.log(req.body);
+  const receivingUser = await User.findOne({
+    _id: req.body.to
+  }).then(data => {
+    if (!!data) {
+      return data;
+    }
+    else {
+      res.status(404).send({message: "No receiving user was found for your comment."});
+    }
+  }).catch(err => console.log(err));
+
+  if (receivingUser) {
+
+    // delete comment based on comment ID from users' list
+    await User.updateOne( 
+      { _id : req.body.to},
+      { $pull: { comments: {_id: req.body.commentId}}}
+    ).then(data => res.send(data))
+    .catch(err => console.log(err));
+  }
+  else {
+    res.status(500).send({message: "Some error occurred while trying to delete a comment."})
+  }
+}
+
 module.exports = {
   createUser,
   updateUser,
@@ -231,5 +362,8 @@ module.exports = {
   deleteUser,
   deleteAllUsers,
   checkLogin,
-  register
+  register,
+  addComment,
+  updateComment,
+  deleteComment
 }
