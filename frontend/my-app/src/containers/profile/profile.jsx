@@ -63,7 +63,7 @@ export default function Profile() {
         <tr>
           <p>Role: {user.role}</p>
         </tr>
-        {user.comments.map((item => <tr>{item.Content}</tr>))}
+        {user.comments && user.comments.map((item => <tr>{item.content}</tr>))}
       </table>
       </>
       
