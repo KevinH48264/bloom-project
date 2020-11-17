@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
+import './../../components/login/login.css';
 import makeRequest from "../../api/makeRequest";
 import { withRouter } from 'react-router';
 class Login extends React.Component {
@@ -44,13 +45,13 @@ class Login extends React.Component {
       <>
       <div className = "login">
       <form onSubmit = {this.handleSubmit.bind(this)}>
-        <h1>Login</h1>
-        <input type="text"
+        <h1 class = "inputs" >Login</h1>
+        <input class = "inputs" type="text"
           name = "usernameOrEmail"
           onChange = {this.handleChange.bind(this)}
           placeholder = "Username or Email"/>
         <br/>
-        <input type = "text"
+        <input class = "inputs" type = "text"
           name = "password"
           onChange = {this.handleChange.bind(this)}
           placeholder = "Password"/>
