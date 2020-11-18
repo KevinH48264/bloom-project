@@ -47,6 +47,11 @@ export default function Profile() {
         })
     }, []);
     
+    let commented = (() => {
+      user.comments.push(document.getElementById('comment_post_ID').value);
+      console.log(user.comments);
+      document.getElementById('comment_post_ID').value = '';
+    });
   
     return ( 
       <>
@@ -64,6 +69,19 @@ export default function Profile() {
           <p>Role: {user.role}</p>
         </tr>
         {user.comments && user.comments.map((item => <tr>{item.content}</tr>))}
+        <tr>
+          <br/>
+        </tr>
+        <tr>
+        <label for="comment" class="required">Your message</label>
+        </tr>
+        <tr>
+        <textarea name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea>
+        <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
+        </tr>
+        <tr>
+        <button name="submit" type="submit" value="Submit comment" onclick="commented();">Submit</button>
+        </tr>
       </table>
       </>
       
