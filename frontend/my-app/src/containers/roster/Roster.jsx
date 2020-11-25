@@ -65,8 +65,8 @@ export default function Roster() {
                     <td><img style={{flex: 1, width: null, height: null, resizeMode: 'contain'}} src={profile}></img></td>
                     <td>{user.username}</td>
                     <td>{user.email}</td>
-                    {user.comments.length !== 0 && (
-                        <td>{user.comments[0]}</td>
+                    {user.comments.length !== 0 && user.comments && (
+                        user.comments.map((item => <tr>{item.content}</tr>))
                     )}
                     {user.comments.length == 0 && (
                         <td>{"This is where user comments would go!"}</td>
