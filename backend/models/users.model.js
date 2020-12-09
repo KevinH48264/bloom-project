@@ -8,7 +8,7 @@ module.exports = mongoose => {
         username: String,
         password: String,
         role: String,
-        pfp: Buffer, 
+        img: { data: Buffer, contentType: String},
         comments: [{fromId: String, fromName: String, fromRole: String, to: String, time: Date, content: String}],
       },
         { timestamps: true }

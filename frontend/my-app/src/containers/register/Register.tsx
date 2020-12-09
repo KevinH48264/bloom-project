@@ -129,7 +129,6 @@ export default function RegisterForm() {
                             <Field name="password" placeholder="Password" type="password" />
                             <ErrorMessage name="password" component="div"/>
                         </div>
-                        
                         <div className="form-group">
                             <Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
                             <ErrorMessage name="confirmPassword" component="div" />

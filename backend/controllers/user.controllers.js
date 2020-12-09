@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const fs = require('fs');
 
 const db = require("../models");
 const User = db.user;
@@ -354,6 +355,42 @@ deleteComment = async (req, res) => {
   }
 }
 
+updatePicture = async(req, res) => {
+  console.log("file")
+  console.log(req.file)
+  console.log("file path")
+  console.log(req.file.path)
+  const id = req.params.id;
+  const CurrentUser = await User.findOne({
+    _id: id
+  }).then(data => {
+    if (!!data) {
+      return data;
+    }
+    else {
+      res.status(404).send({message: "Error Finding User"});
+    }
+  }).catch(err => console.log(err));
+  if (CurrentUser) {
+
+    CurrentUser.img.data = fs.readFileSync(req.file.path);
+    CurrentUser.img.contentType = 'image/jpeg';
+    await CurrentUser.save().then(data => res.send(data))
+    .catch(err => console.log(err))
+    // await User.updateOne( 
+    //   { _id : id},
+    //   { $push: {
+    //     imageName: req.body.imageName,
+    //     imageData: req.body.imageData
+    // }}
+    // ).then(data => res.send(data))
+    // .catch(err => console.log(err));
+  }
+  else {
+    res.status(500).send({message: "Error in updating profile picture."})
+  }
+}
+
 module.exports = {
   createUser,
   updateUser,
@@ -365,5 +402,6 @@ module.exports = {
   register,
   addComment,
   updateComment,
-  deleteComment
+  deleteComment,
+  updatePicture
 }

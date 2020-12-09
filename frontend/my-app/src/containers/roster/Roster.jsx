@@ -11,6 +11,12 @@ import logo from './../../components/landing/logo.png';
 import Navbar from "../../components/nav/Navbar";
 import { isWhiteSpaceLike } from "typescript";
 
+function arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = [].slice.call(new Uint8Array(buffer));
+    bytes.forEach((b) => binary += String.fromCharCode(b));
+    return window.btoa(binary);
+  };
 
 export default function Roster() {
 
@@ -54,6 +60,8 @@ export default function Roster() {
             </thead>
             <tbody>
             {allUsers.map(user => {
+                // var base64Flag = 'data:image/jpeg;base64,';
+                // var imageStr = arrayBufferToBase64(user.img.data.data);
                 return(
                 <tr key={user._id} onClick={() => {
                     console.log("clicked row");
