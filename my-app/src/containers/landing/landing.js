@@ -12,7 +12,7 @@ class Landing extends React.Component {
   render(){
     return(
       <>
-      <table>
+      <table style={{ 'color': 'black'}}>
       <tr>
       <h1>Welcome!</h1>
       </tr>
@@ -29,7 +29,6 @@ class Landing extends React.Component {
           <button>Login</button>
         </Link>
       </tr>
-
         </table>
       </>
     );
