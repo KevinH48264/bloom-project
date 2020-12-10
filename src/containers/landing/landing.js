@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-import './../../components/landing/landing.css';
+import '../../components/landing/landing.css';
 import { Container, Row, Col } from 'react-bootstrap';
-import logo from './../../components/landing/logo.png';
+import logo from '../../components/landing/logo.png';
 
 class Landing extends React.Component {
   contructor(props){
