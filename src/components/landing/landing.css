@@ -1,0 +1,70 @@
+* {
+  font-family: Roboto;
+}
+
+
+.container {
+  display: block;
+}
+
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  padding: 30px;
+}
+
+h1 {
+  text-align: center;
+  color: black;
+  font-size: 12px;
+  position: relative;
+  align-self: center;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 42px;
+  display: flex;
+  align-items: center;
+
+}
+
+div {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonRow {
+  margin: 10px;
+}
+.button {
+  background-color: #23B5A5;
+  margin: 20px;
+  font-size: 20px;
+  border: none;
+  padding: 14px 30px;
+  overflow: hidden;
+  transition: 1s all ease;
+
+  color: white;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  display: flex;
+  text-align: center;
+}
+.btn:hover {
+  background: #25af9fad;
+}
+
+.information {
+  width: 20em; 
+  font-size: 16px;
+}
+
+.form-group {
+  width: 1600px;
+}
