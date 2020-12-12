@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './../../components/login/login.css';
 import makeRequest from "../../api/makeRequest";
 import { withRouter } from 'react-router';
+import logo from './../../components/landing/logo.png';
+
 class Login extends React.Component {
   contructor(props){
     this.state = {
@@ -43,26 +45,33 @@ class Login extends React.Component {
   render(){
     return(
       <>
-      <div className = "login">
-      <form onSubmit = {this.handleSubmit.bind(this)}>
-        <h1 class = "inputs" >Login</h1>
-        <input class = "inputs" type="text"
-          name = "usernameOrEmail"
-          onChange = {this.handleChange.bind(this)}
-          placeholder = "Username or Email"/>
-        <br/>
-        <input class = "inputs" type = "text"
-          name = "password"
-          onChange = {this.handleChange.bind(this)}
-          placeholder = "Password"/>
-        <br/>
-        <input className = "btn btn1" type="submit" value="Submit" />
-        <br/>
-        <br/>
-        <Link to = "/register">
-          <button className = "btn btn1">Register Page</button>
-        </Link>
-      </form>
+      <div className="container">
+        <img className="logo" src = {logo}/>
+        <div>
+        <div className="form-container">
+          <form onSubmit = {this.handleSubmit.bind(this)}>
+            <h1 className="title" >Log In</h1>
+            <div className="formGroup">
+              <label className="formLabel" htmlFor="usernameOrEmail">Username or Email</label>
+              <input className="formInput" type="text"
+                name = "usernameOrEmail"
+                onChange = {this.handleChange.bind(this)}
+                placeholder = "Username or Email"/>            
+            </div>
+            <div className="formGroup">
+              <label className="formLabel" htmlFor="password">Password</label>
+              <input className="formInput" type = "text"
+                name = "password"
+                onChange = {this.handleChange.bind(this)}
+                placeholder = "Password"/>
+            </div>
+            <div><input className = "button submit" type="submit" value="Log In" /></div>
+            <div>
+              <p>Don't have a BOP Account?  <Link to = "/register">Register Here</Link></p>
+            </div>
+          </form>
+        </div>
+        </div>
       </div>
       </>
     );
