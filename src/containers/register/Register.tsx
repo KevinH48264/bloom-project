@@ -6,6 +6,8 @@ import './../../components/register/register.css';
 import makeRequest from "../../api/makeRequest";
 import * as Yup from "yup";
 import { useHistory } from "react-router";
+import logo from './../../components/landing/logo.png';
+
 
 interface RegisterFormValues {
     role: string,
@@ -68,6 +70,9 @@ export default function RegisterForm() {
 
     return (
         <>
+        <div className="container">
+        <img className="logo" src = {logo}/>
+        <h1 className="title">Sign Up</h1>
         <div>
             <Formik
                 initialValues={{
@@ -100,9 +105,11 @@ export default function RegisterForm() {
             >
             {({values, handleChange, handleBlur}) => (
                     <Form>
-                        <div className="form-group">
-                        <label htmlFor="role" style={{ display: 'block' }}>Role</label>
+                        <div className="form-container">
+                        <div className="formGroup">
+                        <label className="formLabel" htmlFor="role">Role</label>
                         <select
+                            className="formInput"
                             id="role"
                             name="role"
                             value={values.role}
@@ -117,37 +124,45 @@ export default function RegisterForm() {
                             <option value="student">Student</option>
                         </select>
                         </div>
-                        <div className="form-group">
-                            <Field name="name" placeholder="Name" type="text" />
+                        <div className="formGroup">
+                            <label className="formLabel" htmlFor="name">Name</label>
+                            <Field className="formInput" name="name" placeholder="Enter your name" type="text" />
                         </div>
-                        <ErrorMessage name="name" component="div" />
-                        <div className="form-group">
-                            <Field name="username" placeholder="Username" type="text" />
+                        <ErrorMessage className="formError" name="name" component="div" />
+                        <div className="formGroup">
+                            <label className="formLabel" htmlFor="username">Username</label>
+                            <Field className="formInput" name="username" placeholder="Enter your username" type="text" />
                         </div>
-                        <ErrorMessage name="username" component="div"/>
-                        <div className="form-group">
-                            <Field name="email" placeholder="Email" type="text" />
-                            <ErrorMessage name="email" component="div"/>
+                        <ErrorMessage className="formError" name="username" component="div"/>
+                        <div className="formGroup">
+                            <label className="formLabel" htmlFor="email">Email</label>
+                            <Field className="formInput" name="email" placeholder="Enter your email" type="text" />
                         </div>
-                        <div className="form-group">
-                            <Field name="password" placeholder="Password" type="password" />
-                            <ErrorMessage name="password" component="div"/>
+                        <ErrorMessage className="formError" name="email" component="div"/>
+                        <div className="formGroup">
+                            <label className="formLabel" htmlFor="password">Password</label>
+                            <Field className="formInput" name="password" placeholder="Enter your password" type="password" />
                         </div>
-                        
-                        <div className="form-group">
-                            <Field name="confirmPassword" type="password" placeholder="Confirm Password"/>
-                            <ErrorMessage name="confirmPassword" component="div" />
+                        <ErrorMessage className="formError" name="password" component="div"/>
+                        <div className="formGroup">
+                            <label className="formLabel" htmlFor="password">Confirm Password</label>
+                            <Field className="formInput" name="confirmPassword" type="password" placeholder="Re-enter your password"/>
+                        </div>
+                        <ErrorMessage className="formError" name="confirmPassword" component="div" />
+                        <div>
+                            <button className = "button submit" type="submit">Register</button>
                         </div>
                         <div>
-                            <button className = "btn btn1" type="submit" style = {{color: "white"}}>Register</button>
-                            <Link to = "/login">
-                                <button className = "btn btn1" style = {{color : "white"}}>Redirect to Login Page</button>
-                            </Link>
+                            <p>
+                                Already have a BOP Account?  <Link to = "/login">Log In</Link>
+                            </p>
+                        </div>
                         </div>
                     </Form>
          
          )}
             </Formik>
+        </div>
         </div>
         </>
     );

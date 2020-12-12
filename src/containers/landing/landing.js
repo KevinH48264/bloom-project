@@ -11,26 +11,30 @@ class Landing extends React.Component {
 
   render(){
     return(
-      <>
-      <table style={{ 'color': 'black'}}>
-      <tr>
-      <h1>Welcome!</h1>
-      </tr>
-      <tr>
-      <img src = {logo}/>
-      </tr>
-      <tr>
+      <div className="container">
+      <img className="logo" src = {logo}/>
+      <div>
+        <h1>Welcome to&nbsp;<b>Bloom</b></h1>
+      </div>
+      <div>
+        <h3>Outreach Program</h3>
+      </div>
+      <div className="buttonRow">
         <Link to = "/register">
-          <button className="btn btn1">Sign Up</button>
+          <button className="button">Sign Up</button>
         </Link>
-        </tr>
-      <tr>
         <Link to="/login">
-          <button>Login</button>
+          <button className="button">Login</button>
         </Link>
-      </tr>
-        </table>
-      </>
+      </div>
+      <div>
+      <p className="information">
+          Check out other Bloom BOP leaders, <br/>
+        leave feedback for your tutors and students, <br/>
+        and grow from feedback others give you!
+      </p>
+      </div>
+      </div>
     );
   }
 }
