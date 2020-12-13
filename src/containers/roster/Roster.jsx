@@ -69,7 +69,7 @@ export default function Roster() {
                         <Left>{user.role}</Left>
                         <Left style={{ width: '400px' }}>{user.email}</Left>
                         {user.comments.length !== 0 && user.comments.length !== 1 && user.comments && (
-                            user.comments.map((item => <tr style={{ border: 'none', width: '100%' }}>{item.content}</tr>))
+                            user.comments.slice(0, 3).map((item => <tr style={{ border: 'none', width: '100%' }}>{item.content}</tr>))
                         )}
                         {user.comments.length == 1 && user.comments && (
                             user.comments.map((item => <td style={{ border: 'none' }}>{item.content}</td>))
