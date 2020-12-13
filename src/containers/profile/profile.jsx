@@ -3,17 +3,24 @@ import { Link, useParams } from 'react-router-dom';
 import './../../components/profile/profile.css';
 import logo from './../../components/landing/logo.png';
 import { withRouter } from 'react-router';
+import axios from "axios";
 import makeRequest from "../../api/makeRequest";
 import Navbar from "../../components/nav/Navbar";
 import { Nav } from "react-bootstrap";
 import { Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
 
+function arrayBufferToBase64(buffer) {
+  var binary = '';
+  var bytes = [].slice.call(new Uint8Array(buffer));
+  bytes.forEach((b) => binary += String.fromCharCode(b));
+  return window.btoa(binary);
+};
 
 export default function Profile() {
     let { userid } = useParams();
     const [user, setUser] = useState({
         username: '',
-        image: logo,
+        image: '',
         name: '',
         role: '',
         email: '',
@@ -28,9 +35,11 @@ export default function Profile() {
             if (!!res) {
                 console.log("user found!")
                 console.log(res);
+                var base64Flag = 'data:image/jpeg;base64,';
+                var imageStr = arrayBufferToBase64(res.img.data.data);
                 setUser({
                     username: res.username,
-                    image: logo,
+                    image: base64Flag + imageStr,
                     name: res.name,
                     role: res.role,
                     email: res.email,
@@ -49,6 +58,23 @@ export default function Profile() {
             console.log(err);  
         })
     }, []);
+    const onChangeHandler=(event)=>{
+
+      var currentFile = event.target.files[0]
+      setUser(prevState => {
+        return { ...prevState, updatedImage: currentFile}
+      })
+  
+    }
+    const submitPicture = (event) => {
+      console.log(user)
+      const formData = new FormData()
+      formData.append('image', user.updatedImage)
+      axios.post(`http://localhost:5000/api/users/updatePicture/${userid}`, formData, {
+      }).then(res => {
+          console.log(res)
+      })
+    }
     
     let commented = (() => {
       user.comments.push(document.getElementById('comment_post_ID').value);
@@ -133,7 +159,16 @@ export default function Profile() {
         <button name="submit" type="submit" value="Submit comment" onclick="commented();">Submit</button>
         </tr>
       </table>
-      </> }
+      <h1>Profile Picture Upload</h1>
+      <form onSubmit={submitPicture}>
+            <div className="form-group">
+                <input type="file" onChange={onChangeHandler} />
+            </div>
+            <div className="form-group">
+                <button className="btn btn-primary" type="submit">Upload</button>
+            </div>
+      </form>
+      </>
       
     )
     };*/
