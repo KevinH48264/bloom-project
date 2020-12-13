@@ -71,8 +71,8 @@ export default function RegisterForm() {
     return (
         <>
         <div className="container">
-        <img className="logo" src = {logo}/>
-        <h1 className="title">Sign Up</h1>
+        <Link to = "/"><img className="logo" src = {logo}/></Link>
+        <h1 className="title"><b>Sign Up</b></h1>
         <div>
             <Formik
                 initialValues={{

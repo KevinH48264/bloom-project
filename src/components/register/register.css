@@ -87,7 +87,7 @@ div {
 .formInput {
   font-size: 18px;
   border-color: lightgrey;
-  box-shadow: 2px 2px lightgrey;
+  /* box-shadow: 2px 2px lightgrey; */
   margin-bottom: 10px;
   width: 75%;
 }

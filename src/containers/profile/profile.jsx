@@ -7,7 +7,7 @@ import axios from "axios";
 import makeRequest from "../../api/makeRequest";
 import Navbar from "../../components/nav/Navbar";
 import { Nav } from "react-bootstrap";
-import { Button, ProfileInfoRow, Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
+import { Comment, CommentTable, Button, ProfileInfoRow, Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
 
 function arrayBufferToBase64(buffer) {
   var binary = '';
@@ -140,7 +140,9 @@ export default function Profile() {
         <Navbar userId={userid}/>
         <ProfileInner>
           <ProfileTitle>
-            <p>My Profile</p>
+          { localStorage.userId == userid 
+          ? <p>My Profile</p>
+          : <p>{user.name}</p>}
           </ProfileTitle>
           <Line />
           <ProfileInfo>
@@ -179,30 +181,36 @@ export default function Profile() {
             </ProfileInfoRow>
           </ProfileInfo>
           <Line />
-          <ProfileComments>
-            <p>Your Comments</p>
-            <table>
-              <tr>
-                <th>Commenter</th>
-                <th>Comment</th>
-                <th>Date</th></tr>
+          { localStorage.userId == userid 
+          ? <ProfileComments>
+            <p style={{ marginBottom: '50px' }}>Your Comments</p>
+            <CommentTable>
+              <tr style={{ fontWeight: 'bold' }}>
+                <Comment>Commenter</Comment>
+                <Comment style= {{ width: '500px'}}>Comment</Comment>
+                <Comment>Date</Comment>
+                <Comment></Comment></tr>
               {user.comments && user.comments.map((item => 
               <tr>
-                <td>{item.fromName}</td>
-                <td>{item.content}</td>
-                <td>{item.time.substring(0, 10)}</td>
-                <td><Button style = {{background: 'red'}} onClick = {() => {
+                <Comment>{item.fromName}</Comment>
+                <Comment style= {{ width: '500px'}}>{item.content}</Comment>
+                <Comment>{item.time.substring(0, 10)}</Comment>
+                <Button style = {{background: 'red', margin: '20px 25px'}} onClick = {() => {
                   deleteComment(item._id);
                   // deleteComment(item._id);
-                  }}>Delete</Button></td></tr>))}
-            </table>
+                  }}>Delete</Button></tr>))}
+            </CommentTable>
           </ProfileComments>
-          <Line />
+          
+          : <div />}
+          { localStorage.userId == userid 
+          ? <Line />
+          : <div />}
           <AddComments>
             <label style={{ marginBottom: '50px' }} for="comment" class="required">Leave feedback for: {user.name}!</label>
-            <form id="form" action = "#" onSubmit="return false;">
-              <textarea style={{ marginBottom: '25px' }} name="comment" id="userInput" rows="10" tabindex="4"  required="required"></textarea>
-              <Button style = {{justifyContent: "center"}} name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
+            <form style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }} id="form" action = "#" onSubmit="return false;">
+              <textarea style={{ padding: '20px' , marginBottom: '25px' }} name="comment" id="userInput" rows="10" tabindex="4"  required="required"></textarea>
+              <Button style = {{ justifyContent: "center"}} name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
             </form>          
           </AddComments>
         </ProfileInner>

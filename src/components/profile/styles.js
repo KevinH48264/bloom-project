@@ -95,3 +95,20 @@ export const Button = styled.button`
         background: #25af9fad;
     }
 `
+
+export const CommentTable = styled.table`
+    max-width: 90%;
+    border-collapse: collapse;
+    border: none;
+    font-size: 24px;
+    table-layout: fixed;
+`
+
+export const Comment = styled.td`
+    border: none;
+    border-collapse: collapse;
+    padding: 10px;
+    max-width: 500px;
+    table-layout: fixed;
+    word-break: break-all;
+`

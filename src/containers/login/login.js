@@ -46,11 +46,11 @@ class Login extends React.Component {
     return(
       <>
       <div className="container">
-        <img className="logo" src = {logo}/>
+        <Link to = "/"><img className="logo" src = {logo}/></Link>
         <div>
         <div className="form-container">
           <form onSubmit = {this.handleSubmit.bind(this)}>
-            <h1 className="title" >Log In</h1>
+            <h1 className="title" ><b>Log In</b></h1>
             <div className="formGroup">
               <label className="formLabel" htmlFor="usernameOrEmail">Username or Email</label>
               <input className="formInput" type="text"
@@ -62,6 +62,7 @@ class Login extends React.Component {
               <label className="formLabel" htmlFor="password">Password</label>
               <input className="formInput" type = "text"
                 name = "password"
+                type="password"
                 onChange = {this.handleChange.bind(this)}
                 placeholder = "Password"/>
             </div>
