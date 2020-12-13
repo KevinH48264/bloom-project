@@ -7,7 +7,7 @@ import axios from "axios";
 import makeRequest from "../../api/makeRequest";
 import Navbar from "../../components/nav/Navbar";
 import { Nav } from "react-bootstrap";
-import { Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
+import { Button, ProfileInfoRow, Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
 
 function arrayBufferToBase64(buffer) {
   var binary = '';
@@ -76,11 +76,12 @@ export default function Profile() {
       })
     }
     
-    let commented = (() => {
+    const commented = (event) => {
+      console.log(user.comments);
       user.comments.push(document.getElementById('comment_post_ID').value);
       console.log(user.comments);
       document.getElementById('comment_post_ID').value = '';
-    });
+    }
   
     return (
       <ProfileContainer>
@@ -91,36 +92,36 @@ export default function Profile() {
           </ProfileTitle>
           <Line />
           <ProfileInfo>
-            {/* <div>
-              <ProfileInfoTag>Profile Photo</ProfileInfoTag>
-              <ProfileInfoResponse>{user.image}</ProfileInfoResponse>
-            </div> */}
-            <p>Profile Picture Upload</p>
-            <form onSubmit={submitPicture}>
-                  <div className="form-group">
-                      <input type="file" onChange={onChangeHandler} />
+            <ProfileInfoRow>
+              <ProfileInfoTag>Profile Picture</ProfileInfoTag>
+              <ProfileInfoResponse style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <img style={{ width: '200px', marginBottom: '20px'}} id = "nav-pic" src={user.image}/>
+                <form style={{ width: '200px', display: 'flex', flexDirection: 'column' }} onSubmit={submitPicture}>
+                  <div style={{ width: '150px'}} className="form-group">
+                      <input type="file" style={{ width: '200px'}} onChange={onChangeHandler} />
                   </div>
-                  <div className="form-group">
-                      <button className="btn btn-primary" type="submit">Upload</button>
+                  <div style={{ width: '200px', flexDirection: 'row', justifyContent: 'flex-start' }} className="form-group">
+                      <Button style={{ margin: '0px' }} className="btn btn-primary" type="submit">Upload</Button>
                   </div>
-            </form>
-            <img style={{ width: '200px'}} id = "nav-pic" src={user.image}/>
-            <div style={{ width: '100%' }}>
+                </form>
+              </ProfileInfoResponse>
+            </ProfileInfoRow>            
+            <ProfileInfoRow>
               <ProfileInfoTag>Name</ProfileInfoTag>
               <ProfileInfoResponse>{user.name}</ProfileInfoResponse>
-            </div>
-            <div>
+            </ProfileInfoRow>
+            <ProfileInfoRow>
               <ProfileInfoTag>Username</ProfileInfoTag>
               <ProfileInfoResponse>{user.username}</ProfileInfoResponse>
-            </div>
-            <div>
+            </ProfileInfoRow>
+            <ProfileInfoRow>
               <ProfileInfoTag>Role</ProfileInfoTag>
               <ProfileInfoResponse>{user.role}</ProfileInfoResponse>
-            </div>
-            <div>
+            </ProfileInfoRow>
+            <ProfileInfoRow>
               <ProfileInfoTag>Email</ProfileInfoTag>
               <ProfileInfoResponse>{user.email}</ProfileInfoResponse>
-            </div>
+            </ProfileInfoRow>
           </ProfileInfo>
           <Line />
           <ProfileComments>
@@ -131,10 +132,10 @@ export default function Profile() {
           </ProfileComments>
           <Line />
           <AddComments>
-            <label for="comment" class="required">Your message</label>
+            <label for="comment" class="required">Leave feedback for: {user.name}!</label>
             <textarea name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea>
             <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
-            <button name="submit" type="submit" value="Submit comment" onclick="commented();">Submit</button>
+            <Button name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
           </AddComments>
         </ProfileInner>
       </ProfileContainer>
