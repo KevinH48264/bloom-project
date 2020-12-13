@@ -11,8 +11,8 @@ export default function Navbar(props) {
         <NavbarContainer>
           <NavInner>
             <img id = "nav-pic" src = {logo}/>
-            <a class="active" href="#home"><NavbarLink to ={`/profile/${user}`}>My Profile</NavbarLink></a>
-            <a><NavbarLink to={`/roster`}>View All Members</NavbarLink></a>
+            <NavbarLink to ={`/profile/${user}`}>My Profile</NavbarLink>
+            <NavbarLink to={`/roster`}>View All Members</NavbarLink>
             <a onclick = "signOut();"><NavbarLink to = "/login">Sign Out</NavbarLink></a>
           </NavInner>
       </NavbarContainer>
