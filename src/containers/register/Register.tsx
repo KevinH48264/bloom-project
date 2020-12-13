@@ -34,7 +34,7 @@ export default function RegisterForm() {
             }
             console.log(newCredentials)
         // call backend to check for user
-        makeRequest("POST", "/api/users/register", newCredentials)
+        makeRequest("POST", "api/users/register", newCredentials)
         .then(res => {
             if (!!res) {
                 console.log("successfully registered user");

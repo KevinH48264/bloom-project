@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from 'react-router-dom';
-import './../../components/profile/profile.css';
-import logo from './../../components/landing/logo.png';
+import '../../components/profile/profile.css';
+import logo from '../../components/landing/logo.png';
 import { withRouter } from 'react-router';
 
 

@@ -7,6 +7,7 @@ import axios from "axios";
 import makeRequest from "../../api/makeRequest";
 import Navbar from "../../components/nav/Navbar";
 import { Nav } from "react-bootstrap";
+import { Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
 
 function arrayBufferToBase64(buffer) {
   var binary = '';
@@ -22,13 +23,14 @@ export default function Profile() {
         image: '',
         name: '',
         role: '',
+        email: '',
         comments: [{from: "RR", to: "JJ", time: "2020-11-05", Content: "Hello, I love your teaching!"},
         {from: "KK", to: "JJ", time: "2020-11-04", Content: "Cool profile picture!"},
         {from: "MM", to: "JJ", time: "2020-11-03", Content: "hey what's up"}]
     });
     // effect for getting user information upon visiting this page
     useEffect(() => {
-        makeRequest("GET", `/api/users/${userid}`)
+        makeRequest("GET", `api/users/${userid}`)
         .then(res => {
             if (!!res) {
                 console.log("user found!")
@@ -40,6 +42,7 @@ export default function Profile() {
                     image: base64Flag + imageStr,
                     name: res.name,
                     role: res.role,
+                    email: res.email,
                     comments: [{from: "RR", to: "JJ", time: "2020-11-05", Content: "Hello, I love your teaching!"},
                                {from: "KK", to: "JJ", time: "2020-11-04", Content: "Cool profile picture!"},
                                {from: "MM", to: "JJ", time: "2020-11-03", Content: "hey what's up"}]
@@ -67,7 +70,7 @@ export default function Profile() {
       console.log(user)
       const formData = new FormData()
       formData.append('image', user.updatedImage)
-      axios.post(`http://localhost:5000/api/users/updatePicture/${userid}`, formData, {
+      axios.post(`https://bloom-website.herokuapp.com/api/users/updatePicture/${userid}`, formData, {
       }).then(res => {
           console.log(res)
       })
@@ -79,11 +82,68 @@ export default function Profile() {
       document.getElementById('comment_post_ID').value = '';
     });
   
-    return ( 
-      <>
+    return (
+      <ProfileContainer>
+        <Navbar userId={userid}/>
+        <ProfileInner>
+          <ProfileTitle>
+            <p>My Profile</p>
+          </ProfileTitle>
+          <Line />
+          <ProfileInfo>
+            {/* <div>
+              <ProfileInfoTag>Profile Photo</ProfileInfoTag>
+              <ProfileInfoResponse>{user.image}</ProfileInfoResponse>
+            </div> */}
+            <p>Profile Picture Upload</p>
+            <form onSubmit={submitPicture}>
+                  <div className="form-group">
+                      <input type="file" onChange={onChangeHandler} />
+                  </div>
+                  <div className="form-group">
+                      <button className="btn btn-primary" type="submit">Upload</button>
+                  </div>
+            </form>
+            <img style={{ width: '200px'}} id = "nav-pic" src={user.image}/>
+            <div style={{ width: '100%' }}>
+              <ProfileInfoTag>Name</ProfileInfoTag>
+              <ProfileInfoResponse>{user.name}</ProfileInfoResponse>
+            </div>
+            <div>
+              <ProfileInfoTag>Username</ProfileInfoTag>
+              <ProfileInfoResponse>{user.username}</ProfileInfoResponse>
+            </div>
+            <div>
+              <ProfileInfoTag>Role</ProfileInfoTag>
+              <ProfileInfoResponse>{user.role}</ProfileInfoResponse>
+            </div>
+            <div>
+              <ProfileInfoTag>Email</ProfileInfoTag>
+              <ProfileInfoResponse>{user.email}</ProfileInfoResponse>
+            </div>
+          </ProfileInfo>
+          <Line />
+          <ProfileComments>
+            <p>Your Comments</p>
+            <table>
+              {user.comments && user.comments.map((item => <tr>{item.content}</tr>))}
+            </table>
+          </ProfileComments>
+          <Line />
+          <AddComments>
+            <label for="comment" class="required">Your message</label>
+            <textarea name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea>
+            <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
+            <button name="submit" type="submit" value="Submit comment" onclick="commented();">Submit</button>
+          </AddComments>
+        </ProfileInner>
+      </ProfileContainer>
+      );
+    }
+/*{ 
         <table>
           <tr>
-            <Navbar userId={userid}/>
+            
           </tr>
         <tr>
           <p class = "username-display">{user.username}</p>
@@ -121,4 +181,4 @@ export default function Profile() {
       </>
       
     )
-    };
+    };*/
