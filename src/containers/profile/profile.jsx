@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from 'react-router-dom';
 import './../../components/profile/profile.css';
 import logo from './../../components/landing/logo.png';
@@ -24,29 +24,26 @@ export default function Profile() {
         name: '',
         role: '',
         email: '',
-        comments: [{from: "RR", to: "JJ", time: "2020-11-05", Content: "Hello, I love your teaching!"},
-        {from: "KK", to: "JJ", time: "2020-11-04", Content: "Cool profile picture!"},
-        {from: "MM", to: "JJ", time: "2020-11-03", Content: "hey what's up"}]
+        comments: [],
+        id: ''
     });
     // effect for getting user information upon visiting this page
     useEffect(() => {
-        console.log('using effect');
         makeRequest("GET", `api/users/${userid}`)
         .then(res => {
             if (res) {
                 console.log("user found!")
-                console.log(res);
                 var base64Flag = 'data:image/jpeg;base64,';
                 var imageStr = arrayBufferToBase64(res.img.data.data);
-                setUser(res);
-                console.log("USER OBJECT");
-                console.log(user);
-                console.log("USER NAME");
-                console.log(user.name);
-                console.log("USER COMMENTS");
-                console.log(user.comments);
-                console.log("RES");
-                console.log(res);
+                setUser({
+                    username: res.username,
+                    image: base64Flag + imageStr,
+                    name: res.name,
+                    role: res.role,
+                    email: res.email,
+                    comments: res.comments,
+                    id : res._id
+                });
             }
             else {
                 console.log("something went wrong getting the user/empty returned");
@@ -58,12 +55,40 @@ export default function Profile() {
         })
     }, [userid]);
 
-    const onChangeHandler=(event)=>{
-      var currentFile = event.target.files[0]
-      setUser(prevState => {
-        return { ...prevState, updatedImage: currentFile}
-      })
-    }
+    const reloadComments = () => {
+        makeRequest("GET", `api/users/${userid}`)
+        .then(res => {
+            if (!!res) {
+                console.log("user found!")
+                var base64Flag = 'data:image/jpeg;base64,';
+                var imageStr = arrayBufferToBase64(res.img.data.data);
+                setUser({
+                    username: res.username,
+                    image: base64Flag + imageStr,
+                    name: res.name,
+                    role: res.role,
+                    email: res.email,
+                    comments: res.comments,
+                    id : res._id
+                });
+            }
+            else {
+                console.log("something went wrong getting the user/empty returned");
+            }
+            console.log(user);
+        })
+        .catch(err => {
+            console.log("User was not found/does not exist!");
+            console.log(err);  
+        })
+      };    
+
+      const onChangeHandler=(event)=>{
+        var currentFile = event.target.files[0]
+        setUser(prevState => {
+          return { ...prevState, updatedImage: currentFile}
+        })
+      }
 
     const submitPicture = (event) => {
       console.log(user)
@@ -76,10 +101,38 @@ export default function Profile() {
     }
     
     const commented = (event) => {
+      var dateObj = new Date();
+      var month = dateObj.getUTCMonth() + 1; //months from 1-12
+      var day = dateObj.getUTCDate();
+      var year = dateObj.getUTCFullYear();
+      var loggedInUser = ""
+
+      var newdate = year + "-" + month + "-" + day;
+      const comment = 
+      {
+        "from": userid,
+        "fromName": loggedInUser,
+        "to": user.id,
+        "time": newdate,
+        "content": document.getElementById('userInput').value
+      };
+      makeRequest("POST", `api/users/addComment`, comment);
+      reloadComments();
+      reloadComments();
+    }
+    const deleteComment = (commentID) => {
       console.log(user.comments);
-      user.comments.push(document.getElementById('comment_post_ID').value);
+      console.log(commentID);
+      const commentDeleted = 
+      {
+        "to" : user.id,
+        "commentId": commentID
+      }
+      makeRequest("POST", `api/users/deleteComment`, commentDeleted);
       console.log(user.comments);
-      document.getElementById('comment_post_ID').value = '';
+      reloadComments();
+      reloadComments();
+      console.log(user.comments);
     }
   
     return (
@@ -129,15 +182,28 @@ export default function Profile() {
           <ProfileComments>
             <p>Your Comments</p>
             <table>
-              {user.comments && user.comments.map((item => <tr>{item.content}</tr>))}
+              <tr>
+                <th>Commenter</th>
+                <th>Comment</th>
+                <th>Date</th></tr>
+              {user.comments && user.comments.map((item => 
+              <tr>
+                <td>{item.fromName}</td>
+                <td>{item.content}</td>
+                <td>{item.time.substring(0, 10)}</td>
+                <td><Button style = {{background: 'red'}} onClick = {() => {
+                  deleteComment(item._id);
+                  // deleteComment(item._id);
+                  }}>Delete</Button></td></tr>))}
             </table>
           </ProfileComments>
           <Line />
           <AddComments>
-            <label style={{ marginBottom: '50px' }}for="comment" class="required">Leave feedback for: {user.name}!</label>
-            <textarea style={{ marginBottom: '25px' }} name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea>
-            <input  type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
-            <Button name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
+            <label style={{ marginBottom: '50px' }} for="comment" class="required">Leave feedback for: {user.name}!</label>
+            <form id="form" action = "#" onSubmit="return false;">
+              <textarea style={{ marginBottom: '25px' }} name="comment" id="userInput" rows="10" tabindex="4"  required="required"></textarea>
+              <Button style = {{justifyContent: "center"}} name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
+            </form>          
           </AddComments>
         </ProfileInner>
       </ProfileContainer>
