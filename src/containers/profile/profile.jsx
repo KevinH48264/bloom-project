@@ -7,7 +7,7 @@ import axios from "axios";
 import makeRequest from "../../api/makeRequest";
 import Navbar from "../../components/nav/Navbar";
 import { Nav } from "react-bootstrap";
-import { Button, ProfileInfoRow, Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
+import { Comment, CommentTable, Button, ProfileInfoRow, Line, ProfileContainer, ProfileInner, ProfileTitle, ProfileInfo, ProfileInfoTag, ProfileInfoResponse, ProfileComments, AddComments } from '../../components/profile/styles'
 
 function arrayBufferToBase64(buffer) {
   var binary = '';
@@ -31,7 +31,7 @@ export default function Profile() {
     useEffect(() => {
         makeRequest("GET", `api/users/${userid}`)
         .then(res => {
-            if (!!res) {
+            if (res) {
                 console.log("user found!")
                 var base64Flag = 'data:image/jpeg;base64,';
                 var imageStr = arrayBufferToBase64(res.img.data.data);
@@ -48,7 +48,6 @@ export default function Profile() {
             else {
                 console.log("something went wrong getting the user/empty returned");
             }
-            console.log(user);
         })
         .catch(err => {
             console.log("User was not found/does not exist!");
@@ -82,16 +81,15 @@ export default function Profile() {
             console.log("User was not found/does not exist!");
             console.log(err);  
         })
-      };
+      };    
 
-    const onChangeHandler=(event)=>{
+      const onChangeHandler=(event)=>{
+        var currentFile = event.target.files[0]
+        setUser(prevState => {
+          return { ...prevState, updatedImage: currentFile}
+        })
+      }
 
-      var currentFile = event.target.files[0]
-      setUser(prevState => {
-        return { ...prevState, updatedImage: currentFile}
-      })
-  
-    }
     const submitPicture = (event) => {
       console.log(user)
       const formData = new FormData()
@@ -103,7 +101,6 @@ export default function Profile() {
     }
     
     const commented = (event) => {
-      console.log('test')
       var dateObj = new Date();
       var month = dateObj.getUTCMonth() + 1; //months from 1-12
       var day = dateObj.getUTCDate();
@@ -111,20 +108,6 @@ export default function Profile() {
       var loggedInUser = ""
 
       var newdate = year + "-" + month + "-" + day;
-      // makeRequest("GET", `api/users/${localStorage.userId}`)
-      //   .then(res => {
-      //       if (!!res) {
-      //         loggedInUser = res.name;
-      //       }
-      //       else {
-      //           console.log("something went wrong getting the user/empty returned");
-      //       }
-      //       console.log(user);
-      //   })
-      //   .catch(err => {
-      //       console.log("User was not found/does not exist!");
-      //       console.log(err);  
-      //   });
       const comment = 
       {
         "from": userid,
@@ -134,13 +117,9 @@ export default function Profile() {
         "content": document.getElementById('userInput').value
       };
       makeRequest("POST", `api/users/addComment`, comment);
-      console.log(user.comments);
       reloadComments();
       reloadComments();
-      // user.comments.push(comment);
-      console.log(user.comments);
     }
-
     const deleteComment = (commentID) => {
       console.log(user.comments);
       console.log(commentID);
@@ -161,7 +140,9 @@ export default function Profile() {
         <Navbar userId={userid}/>
         <ProfileInner>
           <ProfileTitle>
-            <p>My Profile</p>
+          { localStorage.userId == userid 
+          ? <p>My Profile</p>
+          : <p>{user.name}</p>}
           </ProfileTitle>
           <Line />
           <ProfileInfo>
@@ -169,7 +150,8 @@ export default function Profile() {
               <ProfileInfoTag>Profile Picture</ProfileInfoTag>
               <ProfileInfoResponse style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                 <img style={{ width: '200px', marginBottom: '20px'}} id = "nav-pic" src={user.image}/>
-                <form style={{ width: '200px', display: 'flex', flexDirection: 'column' }} onSubmit={submitPicture}>
+                { localStorage.userId == userid 
+                  ? <form style={{ width: '200px', display: 'flex', flexDirection: 'column' }} onSubmit={submitPicture}>
                   <div style={{ width: '150px'}} className="form-group">
                       <input type="file" style={{ width: '200px'}} onChange={onChangeHandler} />
                   </div>
@@ -177,6 +159,8 @@ export default function Profile() {
                       <Button style={{ margin: '0px' }} className="btn btn-primary" type="submit">Upload</Button>
                   </div>
                 </form>
+              : <div />
+              }
               </ProfileInfoResponse>
             </ProfileInfoRow>            
             <ProfileInfoRow>
@@ -197,75 +181,39 @@ export default function Profile() {
             </ProfileInfoRow>
           </ProfileInfo>
           <Line />
-          <ProfileComments>
-            <p>Your Comments</p>
-            <table>
-              <tr>
-                <th>Commenter</th>
-                <th>Comment</th>
-                <th>Date</th></tr>
+          { localStorage.userId == userid 
+          ? <ProfileComments>
+            <p style={{ marginBottom: '50px' }}>Your Comments</p>
+            <CommentTable>
+              <tr style={{ fontWeight: 'bold' }}>
+                <Comment>Commenter</Comment>
+                <Comment style= {{ width: '500px'}}>Comment</Comment>
+                <Comment>Date</Comment>
+                <Comment></Comment></tr>
               {user.comments && user.comments.map((item => 
               <tr>
-                <td>{item.fromName}</td>
-                <td>{item.content}</td>
-                <td>{item.time.substring(0, 10)}</td>
-                <td><Button style = {{background: 'red'}} onClick = {() => {
+                <Comment>{item.fromName}</Comment>
+                <Comment style= {{ width: '500px'}}>{item.content}</Comment>
+                <Comment>{item.time.substring(0, 10)}</Comment>
+                <Button style = {{background: 'red', margin: '20px 25px'}} onClick = {() => {
                   deleteComment(item._id);
                   // deleteComment(item._id);
-                  }}>Delete</Button></td></tr>))}
-            </table>
+                  }}>Delete</Button></tr>))}
+            </CommentTable>
           </ProfileComments>
-          <Line />
+          
+          : <div />}
+          { localStorage.userId == userid 
+          ? <Line />
+          : <div />}
           <AddComments>
             <label style={{ marginBottom: '50px' }} for="comment" class="required">Leave feedback for: {user.name}!</label>
-            <form id="form" action = "#" onSubmit="return false;">
-              <textarea style={{ marginBottom: '25px' }} name="comment" id="userInput" rows="10" tabindex="4"  required="required"></textarea>
-              <Button style = {{justifyContent: "center"}} name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
-            </form>
+            <form style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }} id="form" action = "#" onSubmit="return false;">
+              <textarea style={{ padding: '20px' , marginBottom: '25px' }} name="comment" id="userInput" rows="10" tabindex="4"  required="required"></textarea>
+              <Button style = {{ justifyContent: "center"}} name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
+            </form>          
           </AddComments>
         </ProfileInner>
       </ProfileContainer>
       );
     }
-/*{ 
-        <table>
-          <tr>
-            
-          </tr>
-        <tr>
-          <p class = "username-display">{user.username}</p>
-        </tr>
-        <tr>
-          <img id = "nav-pic" src={user.image}/>
-        </tr>
-        <tr>
-          <p>Role: {user.role}</p>
-        </tr>
-        {user.comments && user.comments.map((item => <tr>{item.content}</tr>))}
-        <tr>
-          <br/>
-        </tr>
-        <tr>
-        <label for="comment" class="required">Your message</label>
-        </tr>
-        <tr>
-        <textarea name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea>
-        <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" />
-        </tr>
-        <tr>
-        <button name="submit" type="submit" value="Submit comment" onclick="commented();">Submit</button>
-        </tr>
-      </table>
-      <h1>Profile Picture Upload</h1>
-      <form onSubmit={submitPicture}>
-            <div className="form-group">
-                <input type="file" onChange={onChangeHandler} />
-            </div>
-            <div className="form-group">
-                <button className="btn btn-primary" type="submit">Upload</button>
-            </div>
-      </form>
-      </>
-      
-    )
-    };*/

@@ -12,14 +12,14 @@ class Landing extends React.Component {
   render(){
     return(
       <div className="container">
-      <img className="logo" src = {logo}/>
+      <Link to = "/"><img className="logo" src = {logo}/></Link>
       <div>
-        <h1>Welcome to&nbsp;<b>Bloom</b></h1>
+        <h1 style={{ fontSize: '48px', marginBottom: '0px'}}>Welcome to&nbsp;<b>Bloom</b></h1>
       </div>
       <div>
-        <h3>Outreach Program</h3>
+        <h3 style={{ fontSize: '36px', marginTop: '0px'}}>Outreach Program</h3>
       </div>
-      <div className="buttonRow">
+      <div style={{ margin: '30px 0px'}}className="buttonRow">
         <Link to = "/register">
           <button className="button">Sign Up</button>
         </Link>
@@ -28,7 +28,7 @@ class Landing extends React.Component {
         </Link>
       </div>
       <div>
-      <p className="information">
+      <p style={{ fontSize: '24px', textAlign: 'center' }}className="information">
           Check out other Bloom BOP leaders, <br/>
         leave feedback for your tutors and students, <br/>
         and grow from feedback others give you!

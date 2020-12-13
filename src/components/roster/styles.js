@@ -16,5 +16,6 @@ export const Left = styled.th`
     padding-left: 15px;
     font-weight: normal;
     width: 200px;
+    word-break: break-all;
 `
 

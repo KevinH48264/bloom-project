@@ -47,9 +47,9 @@ export default function Roster() {
                 <table>
                 <thead style={{ border: 'none' }}>
                     <tr>
-                        <Left style={{ fontWeight: 'bold' }}>Profile</Left>
                         <Left style={{ fontWeight: 'bold' }}>Name</Left>
                         <Left style={{ fontWeight: 'bold' }}>Role</Left>
+                        <Left style={{ width: '400px', fontWeight: 'bold' }}>Email</Left>
                         <th style={{ border: 'none' }}>Comments</th>
                     </tr>
                  </thead>
@@ -64,17 +64,18 @@ export default function Roster() {
                         // redirect to personal page
                         history.push(`/profile/${user._id}`)
                     }}>
-                        
                         {/* <td><img src={base64Flag + imageStr} /></td> */}
                         <Left>{user.name}</Left>
-                        <Left>{user.name}</Left>
                         <Left>{user.role}</Left>
-                        {/* <td>{user.email}</td> */}
-                        {user.comments.length !== 0 && user.comments && (
-                            user.comments.map((item => <tr style={{ border: 'none' }}>{item.content}</tr>))
+                        <Left style={{ width: '400px' }}>{user.email}</Left>
+                        {user.comments.length !== 0 && user.comments.length !== 1 && user.comments && (
+                            user.comments.map((item => <tr style={{ border: 'none', width: '100%' }}>{item.content}</tr>))
+                        )}
+                        {user.comments.length == 1 && user.comments && (
+                            user.comments.map((item => <td style={{ border: 'none' }}>{item.content}</td>))
                         )}
                         {user.comments.length == 0 && (
-                            <td style={{ border: 'none' }}>{"This is where user comments would go!"}</td>
+                            <td style={{ border: 'none' }}>{"No comments yet!"}</td>
                         )}
                     </tr>
                     )
@@ -86,49 +87,3 @@ export default function Roster() {
         </ProfileContainer>
     );
 }
-
-{/* //         <div style={{ display: 'flex', flexDirection: 'column', width: '100%'}}>
-//             <Navbar userId={userId}/>
-            
-//             <h1>All Bloom Users</h1>
-//             <br/>
-//             <div id="users-table" style={{backgroundColor: "white"}}>
-//                 <table>
-//                 <thead>
-//                     <tr>
-//                         <th>Name</th>
-//                         <th>Role</th>
-//                         <th></th>
-//                         <th>Username</th>
-//                         <th>Email</th>
-//                         <th>Comments</th>
-//                     </tr>
-//                 </thead>
-//                 <tbody>
-//                 {allUsers.map(user => {
-//                     return(
-//                     <tr key={user._id} onClick={() => {
-//                         console.log("clicked row");
-//                         // redirect to personal page
-//                         history.push(`/profile/${user._id}`)
-//                     }}>
-//                         <td>{user.name}</td>
-//                         <td>{user.role}</td>
-//                         <td><img style={{flex: 1, width: null, height: null, resizeMode: 'contain'}} src={profile}></img></td>
-//                         <td>{user.username}</td>
-//                         <td>{user.email}</td>
-//                         {user.comments.length !== 0 && user.comments && (
-//                             user.comments.map((item => <tr>{item.content}</tr>))
-//                         )}
-//                         {user.comments.length == 0 && (
-//                             <td>{"This is where user comments would go!"}</td>
-//                         )}
-//                     </tr>
-//                     )
-//                 })}
-//                 </tbody>
-//                 </table>
-//             </div>
-//         </div>
-//     );
-// } */}

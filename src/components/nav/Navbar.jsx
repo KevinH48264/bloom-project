@@ -20,7 +20,7 @@ export default function Navbar(props) {
             {/* <button type="button" onClick={(e) => refreshPage() }> <span>Reload</span> </button>  */}
             <NavbarLink to ={`/profile/${user}`} refresh="true">My Profile</NavbarLink>
             <NavbarLink to={`/roster`}>View All Members</NavbarLink>
-            <a onclick = "signOut();"><NavbarLink to = "/login">Sign Out</NavbarLink></a>
+            <a onclick = "signOut();"><NavbarLink to = "/">Sign Out</NavbarLink></a>
           </NavInner>
       </NavbarContainer>
     )
