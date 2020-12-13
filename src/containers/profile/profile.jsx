@@ -70,7 +70,7 @@ export default function Profile() {
       console.log(user)
       const formData = new FormData()
       formData.append('image', user.updatedImage)
-      axios.post(`http://localhost:5000/api/users/updatePicture/${userid}`, formData, {
+      axios.post(`https://bloom-website.herokuapp.com/api/users/updatePicture/${userid}`, formData, {
       }).then(res => {
           console.log(res)
       })
@@ -95,6 +95,16 @@ export default function Profile() {
               <ProfileInfoTag>Profile Photo</ProfileInfoTag>
               <ProfileInfoResponse>{user.image}</ProfileInfoResponse>
             </div> */}
+            <p>Profile Picture Upload</p>
+            <form onSubmit={submitPicture}>
+                  <div className="form-group">
+                      <input type="file" onChange={onChangeHandler} />
+                  </div>
+                  <div className="form-group">
+                      <button className="btn btn-primary" type="submit">Upload</button>
+                  </div>
+            </form>
+            <img style={{ width: '200px'}} id = "nav-pic" src={user.image}/>
             <div style={{ width: '100%' }}>
               <ProfileInfoTag>Name</ProfileInfoTag>
               <ProfileInfoResponse>{user.name}</ProfileInfoResponse>
