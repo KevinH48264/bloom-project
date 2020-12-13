@@ -7,11 +7,18 @@ import { NavbarContainer, NavInner, NavbarLink } from './styles';
 export default function Navbar(props) {
     const [user, setUser] = useState((localStorage.getItem("userId")) || props.userId);
     console.log(user);
+
+    const refreshPage = () => {
+      window.location.reload(); 
+    }
+        
+
     return (
         <NavbarContainer>
           <NavInner>
             <img id = "nav-pic" src = {logo}/>
-            <NavbarLink to ={`/profile/${user}`}>My Profile</NavbarLink>
+            {/* <button type="button" onClick={(e) => refreshPage() }> <span>Reload</span> </button>  */}
+            <NavbarLink to ={`/profile/${user}`} refresh="true">My Profile</NavbarLink>
             <NavbarLink to={`/roster`}>View All Members</NavbarLink>
             <a onclick = "signOut();"><NavbarLink to = "/login">Sign Out</NavbarLink></a>
           </NavInner>

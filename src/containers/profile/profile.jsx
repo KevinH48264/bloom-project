@@ -44,7 +44,6 @@ export default function Profile() {
                     comments: res.comments,
                     id : res._id
                 });
-                reloadComments();
             }
             else {
                 console.log("something went wrong getting the user/empty returned");
@@ -218,10 +217,10 @@ export default function Profile() {
           </ProfileComments>
           <Line />
           <AddComments>
-            <label for="comment" class="required">Leave feedback for: {user.name}!</label>
+            <label style={{ marginBottom: '50px' }} for="comment" class="required">Leave feedback for: {user.name}!</label>
             <form id="form" action = "#" onSubmit="return false;">
-              <input type="text" id="userInput"/>
-              <input type="submit" onClick={e => commented()}></input>
+              <textarea style={{ marginBottom: '25px' }} name="comment" id="userInput" rows="10" tabindex="4"  required="required"></textarea>
+              <Button style = {{justifyContent: "center"}} name="submit" type="submit" value="Submit comment" onClick={e => commented()}>Submit</Button>
             </form>
           </AddComments>
         </ProfileInner>

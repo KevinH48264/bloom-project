@@ -19,6 +19,7 @@ export const ProfileInner = styled.div`
     align-items: center; 
     flex-direction: column;
     background-color: white;
+    padding-bottom: 100px;
 `
 
 export const ProfileTitle = styled.div`
