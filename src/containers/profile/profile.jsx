@@ -33,22 +33,20 @@ export default function Profile() {
         console.log('using effect');
         makeRequest("GET", `api/users/${userid}`)
         .then(res => {
-            if (!!res) {
+            if (res) {
                 console.log("user found!")
                 console.log(res);
                 var base64Flag = 'data:image/jpeg;base64,';
                 var imageStr = arrayBufferToBase64(res.img.data.data);
-                setUser({
-                    username: res.username,
-                    image: base64Flag + imageStr,
-                    name: res.name,
-                    role: res.role,
-                    email: res.email,
-                    comments: [{from: "RR", to: "JJ", time: "2020-11-05", Content: "Hello, I love your teaching!"},
-                               {from: "KK", to: "JJ", time: "2020-11-04", Content: "Cool profile picture!"},
-                               {from: "MM", to: "JJ", time: "2020-11-03", Content: "hey what's up"}]
-                });
+                setUser(res);
+                console.log("USER OBJECT");
                 console.log(user);
+                console.log("USER NAME");
+                console.log(user.name);
+                console.log("USER COMMENTS");
+                console.log(user.comments);
+                console.log("RES");
+                console.log(res);
             }
             else {
                 console.log("something went wrong getting the user/empty returned");
@@ -97,7 +95,8 @@ export default function Profile() {
               <ProfileInfoTag>Profile Picture</ProfileInfoTag>
               <ProfileInfoResponse style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                 <img style={{ width: '200px', marginBottom: '20px'}} id = "nav-pic" src={user.image}/>
-                <form style={{ width: '200px', display: 'flex', flexDirection: 'column' }} onSubmit={submitPicture}>
+                { localStorage.userId == userid 
+                  ? <form style={{ width: '200px', display: 'flex', flexDirection: 'column' }} onSubmit={submitPicture}>
                   <div style={{ width: '150px'}} className="form-group">
                       <input type="file" style={{ width: '200px'}} onChange={onChangeHandler} />
                   </div>
@@ -105,6 +104,8 @@ export default function Profile() {
                       <Button style={{ margin: '0px' }} className="btn btn-primary" type="submit">Upload</Button>
                   </div>
                 </form>
+              : <div />
+              }
               </ProfileInfoResponse>
             </ProfileInfoRow>            
             <ProfileInfoRow>
