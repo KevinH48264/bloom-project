@@ -119,9 +119,10 @@ export default function RegisterForm() {
                             style={{ display: 'block' }}
                         >
                             <option value="">Select a Role</option>
-                            <option value="admin">Administrator</option>
-                            <option value="tutor">Tutor</option>
-                            <option value="student">Student</option>
+                            <option value="Admin">Administrator</option>
+                            <option value="Tutor">Tutor</option>
+                            <option value="Student">Student</option>
+                            <option value="Volunteer">Volunteer</option>
                         </select>
                         </div>
                         <div className="formGroup">

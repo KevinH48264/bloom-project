@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from 'react-router-dom';
 import './../../components/profile/profile.css';
 import logo from './../../components/landing/logo.png';
+import profile_pic from './profile_pic.jpg';
 import { withRouter } from 'react-router';
 import axios from "axios";
 import makeRequest from "../../api/makeRequest";
@@ -33,8 +34,18 @@ export default function Profile() {
         .then(res => {
             if (res) {
                 console.log("user found!")
-                var base64Flag = 'data:image/jpeg;base64,';
-                var imageStr = arrayBufferToBase64(res.img.data.data);
+                var base64Flag = '';
+                var imageStr = '';
+                console.log(res.img)
+                if (res.img) {
+                    var base64Flag = 'data:image/jpeg;base64,';
+                    var imageStr = arrayBufferToBase64(res.img.data.data);
+                }
+                // } else {
+                //     var imageAsBase64 = fs.readFileSync('./profile.png', {encoding: 'base64'});
+                //     var imageStr = imageAsBase64;
+                // }
+                
                 setUser({
                     username: res.username,
                     image: base64Flag + imageStr,
@@ -60,8 +71,17 @@ export default function Profile() {
         .then(res => {
             if (!!res) {
                 console.log("user found!")
-                var base64Flag = 'data:image/jpeg;base64,';
-                var imageStr = arrayBufferToBase64(res.img.data.data);
+                var base64Flag = '';
+                var imageStr = '';
+                console.log(res.img)
+                if (res.img) {
+                    var base64Flag = 'data:image/jpeg;base64,';
+                    var imageStr = arrayBufferToBase64(res.img.data.data);
+                }
+                // } else {
+                //     var imageAsBase64 = fs.readFileSync('./profile.png', {encoding: 'base64'});
+                //     var imageStr = imageAsBase64;
+                // }
                 setUser({
                     username: res.username,
                     image: base64Flag + imageStr,
@@ -149,7 +169,7 @@ export default function Profile() {
             <ProfileInfoRow>
               <ProfileInfoTag>Profile Picture</ProfileInfoTag>
               <ProfileInfoResponse style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                <img style={{ width: '200px', marginBottom: '20px'}} id = "nav-pic" src={user.image}/>
+                <img style={{ width: '200px', marginBottom: '20px'}} id = "nav-pic" src={user.image || profile_pic}/>
                 { localStorage.userId == userid 
                   ? <form style={{ width: '200px', display: 'flex', flexDirection: 'column' }} onSubmit={submitPicture}>
                   <div style={{ width: '150px'}} className="form-group">
