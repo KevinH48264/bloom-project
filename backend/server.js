@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // connecting to MongoDB
 const db = require("./models");
 
-// app.use(express.static(path.join(__dirname, '../build')))
-app.use("/bloom-project/", express.static(path.join(__dirname, '../build')))
+app.use(express.static(path.join(__dirname, '../build')))
+// app.use("/bloom-project/", express.static(path.join(__dirname, '../build')))
 
 // app.get('/*', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../build'))
