@@ -24,13 +24,9 @@ const db = require("./models");
 
 app.use(express.static(path.join(__dirname, '../build')))
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build'), (err) => {
-      if (err) {
-        res.status(500).send(err)
-      }
-    })
-  })
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
+})
 // app.get('/*', function(req, res) {
 //   res.sendFile(path.join(__dirname, '../build'), function(err) {
 //     if (err) {
