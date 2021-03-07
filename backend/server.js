@@ -23,18 +23,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const db = require("./models");
 
 app.use(express.static(path.join(__dirname, '../build')))
-// app.use("/bloom-project/", express.static(path.join(__dirname, '../build')))
 
-// app.get('/*', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../build'))
-// })
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../build/index.html'), function(err) {
-    if (err) {
-      res.status(500).send(err)
-    }
-  })
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'))
 })
+// app.get('/*', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../build'), function(err) {
+//     if (err) {
+//       res.status(500).send(err)
+//     }
+//   })
+// })
 
 db.mongoose
   .connect(db.url, {

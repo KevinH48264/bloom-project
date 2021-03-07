@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Link, useParams } from 'react-router-dom';
 import './../../components/profile/profile.css';
 import logo from './../../components/landing/logo.png';
-import profile_pic from './profile_pic.jpg';
+import profile_pic from './../../components/landing/profile_pic.jpg';
 import { withRouter } from 'react-router';
 import axios from "axios";
 import makeRequest from "../../api/makeRequest";
